@@ -1,0 +1,91 @@
+import datetime
+import requests
+import json
+import os
+from IPython import embed
+
+BetterDoctor_api_key = os.environ.get("BetterDoctor_API_KEY") or "Oops! Please enter a valid key."
+BetterDoctor_api_url = 'https://api.betterdoctor.com/2016-03-01/doctors?location=37.773,-122.413,100&skip=2&limit=10&api_key=' + api_key;
+openFDA_label_api_key = os.environ.get("openFDA_label_API_KEY") or "Oops! Please enter a valid key."
+openFDA_event_api_key = os.environ.get("openFDA_event_API_KEY") or "Oops! Please enter a valid key."
+
+
+#I dont think this is necessary anymore now that I found a way to get an API key
+#get(api_url, function(data)
+#    data = { meta: {<metadata>}, data: {<array[Practice]>} }
+#    var template = Handlebars.compile(document.getElementById('docs-template').innerHTML);
+#    document.getElementById('content-placeholder').innerHTML = template(data);
+#
+#request_url = "https://api.fda.gov/drug/label.json"
+#response = requests.get(request_url)
+
+def menu(username="@Aria"):
+    menu = f"""
+    -----------------------------------
+            HELP YOUR HEALTH!
+    -----------------------------------
+    Welcome {username}!
+    Here's all the things you can do with Help Your Health! Pleae choose from the menu options below.
+        options   | description
+        --------- | ------------------
+        'Info'    | Display all information about a drug.
+        'Compare' | Compare two or more drugs among a set of characteristics.
+        'Doctor'  | Find a doctor in your area to get more information.
+
+    What would you like to do today?: """
+    return menu
+
+def parse_response(response_text):
+
+    if isinstance(response_text, str):
+        response_text = json.loads(response_text)
+
+def run():
+    # First, read products from file...
+    products = read_products_from_file(response_text)
+    operation = operation.title()
+    input(operation)
+
+    if operation == "Info":
+        print("Get More Information")
+        brand_names[]
+        def lookup_product_by_name(brand_names):
+            #todo: matching_products = [pull from API by brand name]
+            return brand_names[0]
+            brand_names = input("Please enter the generic or brand name of the drug you would like to learn more about: ")
+        #ToDo: figure out how to pull generic name or brand name from openFDA api_key. Can I give users an option of entering one or the other?
+        #ToDo: list drug attributes: uses, reactions...how do I see everything on the api?
+        print("-------")
+        print(brand_name)
+        #print(drug attributes)
+        print("-------")
+
+    elif operation == "Compare":
+        print("Compare")
+        brand_names[]
+        def lookup_product_by_name(brand_names):
+            #todo: matching_products = [pull from API by brand name]
+            return brand_names[0]
+
+        while True:
+            brand_names = input("Please enter the generic or brand names of the drug you would like to learn more about: ")
+            if brand_names == "DONE":
+                break
+            else:
+                brand_name.append(int(brand_names))
+        #ToDo: figure out how to pull generic names or brand names from openFDA api_key. Can I give users an option of entering one or the other?
+        #ToDo: list all drug attributes: uses, reactions...how do I see everything on the api?
+        print("-------")
+        print(brand_name)
+        #print(drug attributes)
+        print("-------")
+
+    elif operation == "Doctor":
+        print("Let's find you a doctor")
+        Find_a_Doctor=input("Please enter your postal code: ")
+        #ToDo - pull postal code data from BetterDoctor api
+        print("Here's a list of doctors in your area: ")
+        #ToDo - match postal code data and list doctor attributes
+
+    else:
+        print("Please select a valid option")
