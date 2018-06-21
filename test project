@@ -5,10 +5,13 @@ import os
 from IPython import embed
 
 BetterDoctor_api_key = os.environ.get("BetterDoctor_API_KEY") or "Oops! Please enter a valid key."
-BetterDoctor_api_url = 'https://api.betterdoctor.com/2016-03-01/doctors?location=37.773,-122.413,100&skip=2&limit=10&api_key=' + api_key;
-openFDA_label_api_key = os.environ.get("openFDA_label_API_KEY") or "Oops! Please enter a valid key."
-openFDA_event_api_key = os.environ.get("openFDA_event_API_KEY") or "Oops! Please enter a valid key."
+BetterDoctor_api_url = 'https://api.betterdoctor.com/2016-03-01/doctors?location=37.773,-122.413,100&skip=2&limit=10&api_key=' + BetterDoctor_api_key;
 
+openFDA_label_api_key = os.environ.get("openFDA_label_API_KEY") or "Oops! Please enter a valid key."
+openFDA_label_url = 'https://api.fda.gov/drug/label.json'
+
+openFDA_event_api_key = os.environ.get("openFDA_event_API_KEY") or "Oops! Please enter a valid key."
+openFDA_event_url = 'https://api.fda.gov/drug/event.json'
 
 #I dont think this is necessary anymore now that I found a way to get an API key
 #get(api_url, function(data)
@@ -16,8 +19,30 @@ openFDA_event_api_key = os.environ.get("openFDA_event_API_KEY") or "Oops! Please
 #    var template = Handlebars.compile(document.getElementById('docs-template').innerHTML);
 #    document.getElementById('content-placeholder').innerHTML = template(data);
 #
-#request_url = "https://api.fda.gov/drug/label.json"
-#response = requests.get(request_url)
+
+#response.status_code
+#response.text
+
+openFDA_label_request_url = "https://api.fda.gov/drug/label.json"
+response_label = requests.get(openFDA_label_request_url)
+def parse_response_label(response_text_label):
+
+    if isinstance(response_text_label, str):
+        response_text_label = json.loads(response_text_label)
+
+openFDA_event_request_url = "https://api.fda.gove/drug/event.json"
+response_event = requests.get(openFDA_event_request_url)
+def parse_response_event(response_text_event):
+
+    if isinstance(response_text_event, str):
+        response_text_event = json.loads(response_text_event)
+
+BetterDoctor_request_url = "'https://api.betterdoctor.com/2016-03-01/doctors?location=37.773,-122.413,100&skip=2&limit=10&api_key=' + BetterDoctor_api_key;"
+response_BetterDoctor = requests.get(BetterDoctor_request_url)
+def parse_response_BetterDoctor(response_text_BetterDoctor):
+
+    if isinstance(response_text_event, str):
+        response_text_BetterDoctor = json.loads(response_text_BetterDoctor)
 
 def menu(username="@Aria"):
     menu = f"""
@@ -25,7 +50,7 @@ def menu(username="@Aria"):
             HELP YOUR HEALTH!
     -----------------------------------
     Welcome {username}!
-    Here's all the things you can do with Help Your Health! Pleae choose from the menu options below.
+    Here's all the things you can do with Help Your Health! Please choose from the menu options below.
         options   | description
         --------- | ------------------
         'Info'    | Display all information about a drug.
@@ -41,18 +66,14 @@ def parse_response(response_text):
         response_text = json.loads(response_text)
 
 def run():
-    # First, read products from file...
+    # Read attributes from file...
     products = read_products_from_file(response_text)
     operation = operation.title()
     input(operation)
 
     if operation == "Info":
         print("Get More Information")
-        brand_names[]
-        def lookup_product_by_name(brand_names):
-            #todo: matching_products = [pull from API by brand name]
-            return brand_names[0]
-            brand_names = input("Please enter the generic or brand name of the drug you would like to learn more about: ")
+        brand_names = input("Please enter the generic or brand name of the drug you would like to learn more about: ")
         #ToDo: figure out how to pull generic name or brand name from openFDA api_key. Can I give users an option of entering one or the other?
         #ToDo: list drug attributes: uses, reactions...how do I see everything on the api?
         print("-------")
@@ -62,11 +83,6 @@ def run():
 
     elif operation == "Compare":
         print("Compare")
-        brand_names[]
-        def lookup_product_by_name(brand_names):
-            #todo: matching_products = [pull from API by brand name]
-            return brand_names[0]
-
         while True:
             brand_names = input("Please enter the generic or brand names of the drug you would like to learn more about: ")
             if brand_names == "DONE":
@@ -89,3 +105,4 @@ def run():
 
     else:
         print("Please select a valid option")
+
