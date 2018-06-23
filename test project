@@ -25,6 +25,7 @@ openFDA_event_url = 'https://api.fda.gov/drug/event.json'
 
 openFDA_label_request_url = "https://api.fda.gov/drug/label.json"
 response_label = requests.get(openFDA_label_request_url)
+
 def parse_response_label(response_text_label):
 
     if isinstance(response_text_label, str):
@@ -37,11 +38,11 @@ def parse_response_event(response_text_event):
     if isinstance(response_text_event, str):
         response_text_event = json.loads(response_text_event)
 
-BetterDoctor_request_url = "'https://api.betterdoctor.com/2016-03-01/doctors?location=37.773,-122.413,100&skip=2&limit=10&api_key=' + BetterDoctor_api_key;"
+BetterDoctor_request_url = "'https://api.betterdoctor.com/2016-03-01/doctors?location=37.773,-122.413,100&skip=2&limit=10&user_key=' + BetterDoctor_api_key;"
 response_BetterDoctor = requests.get(BetterDoctor_request_url)
 def parse_response_BetterDoctor(response_text_BetterDoctor):
 
-    if isinstance(response_text_event, str):
+    if isinstance(response_text_BetterDoctor, str):
         response_text_BetterDoctor = json.loads(response_text_BetterDoctor)
 
 def menu(username="@Aria"):
@@ -60,16 +61,56 @@ def menu(username="@Aria"):
     What would you like to do today?: """
     return menu
 
-def parse_response(response_text):
-
-    if isinstance(response_text, str):
-        response_text = json.loads(response_text)
-
 def run():
     # Read attributes from file...
-    products = read_products_from_file(response_text)
+    products_label = read_products_from_file(response_text_label)
     operation = operation.title()
     input(operation)
+
+    results_label = []
+    drug_label = response_text["results"]
+    for results_label in drug_label: #to loop through a dictionary's top-level keys/attributes
+        results_label = {
+            "brand_name": results_label["1.Brand Name"],
+            "generic_name": results_label["2. Generic Name"],
+            "purpose": results_label["3. Purpose"],
+            "stop_use": results_label["4. Stop Use If"]
+        }
+        results.append(result_label)
+    return results_label
+
+    products_event = read_products_from_file(response_text_event)
+    operation = operation.title()
+    input(operation)
+
+    results_event = []
+    drug_event = response_text["results"]
+    for results_event in drug_event #to loop through a dictionary's top-level keys/attributes
+        results_event = {
+            "manufacturer_name": results_event["1.Manufacturer Name"],
+            #"generic_name": results_event["2. Generic Name"],
+            #"purpose": results_event["3. Purpose"],
+            #"stop_use": results_event["4. Stop Use If"]
+        }
+        results.append(result_event)
+    return results_event
+
+    products_BetterDoctor = read_products_from_file(response_text_BetterDoctor)
+    operation = operation.title()
+    input(operation)
+
+    #todo - parse response to understand JSON 
+    results_BetterDoctor = []
+    drug_BetterDoctor = response_text["Results"]
+    for results_label in drug_label: #to loop through a dictionary's top-level keys/attributes
+        results_label = {
+            "brand_name": results_label["1.Brand Name"],
+            "generic_name": results_label["2. Generic Name"],
+            "purpose": results_label["3. Purpose"],
+            "stop_use": results_label["4. Stop Use If"]
+        }
+        results.append(result_label)
+    return results_label
 
     if operation == "Info":
         print("Get More Information")
