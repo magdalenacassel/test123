@@ -4,13 +4,10 @@ import json
 import os
 from IPython import embed
 
-BetterDoctor_api_key = os.environ.get("BetterDoctor_API_KEY") or "Oops! Please enter a valid key."
 BetterDoctor_api_url = 'https://api.betterdoctor.com/2016-03-01/doctors?location=37.773,-122.413,100&skip=2&limit=10&api_key=' + BetterDoctor_api_key;
 
-openFDA_label_api_key = os.environ.get("openFDA_label_API_KEY") or "Oops! Please enter a valid key."
 openFDA_label_url = 'https://api.fda.gov/drug/label.json'
 
-openFDA_event_api_key = os.environ.get("openFDA_event_API_KEY") or "Oops! Please enter a valid key."
 openFDA_event_url = 'https://api.fda.gov/drug/event.json'
 
 #I dont think this is necessary anymore now that I found a way to get an API key
@@ -31,7 +28,7 @@ def parse_response_label(response_text_label):
     if isinstance(response_text_label, str):
         response_text_label = json.loads(response_text_label)
 
-openFDA_event_request_url = "https://api.fda.gove/drug/event.json"
+openFDA_event_request_url = "https://api.fda.gov/drug/event.json"
 response_event = requests.get(openFDA_event_request_url)
 def parse_response_event(response_text_event):
 
@@ -46,7 +43,7 @@ def parse_response_BetterDoctor(response_text_BetterDoctor):
         response_text_BetterDoctor = json.loads(response_text_BetterDoctor)
 
 def menu(username="@Aria"):
-    menu = f"""
+    menu = """
     -----------------------------------
             HELP YOUR HEALTH!
     -----------------------------------
@@ -69,7 +66,8 @@ def run():
 
     results_label = []
     drug_label = response_text["results"]
-    for results_label in drug_label: #to loop through a dictionary's top-level keys/attributes
+    #to loop through a dictionary's top-level keys/attributes
+    for results_label in drug_label:
         results_label = {
             "brand_name": results_label["1.Brand Name"],
             "generic_name": results_label["2. Generic Name"],
@@ -85,7 +83,8 @@ def run():
 
     results_event = []
     drug_event = response_text["results"]
-    for results_event in drug_event #to loop through a dictionary's top-level keys/attributes
+    #to loop through a dictionary's top-level keys/attributes
+    for results_event in drug_event:
         results_event = {
             "manufacturer_name": results_event["1.Manufacturer Name"],
             #"generic_name": results_event["2. Generic Name"],
@@ -99,10 +98,11 @@ def run():
     operation = operation.title()
     input(operation)
 
-    #todo - parse response to understand JSON 
+    #todo - parse response to understand JSON
     results_BetterDoctor = []
     drug_BetterDoctor = response_text["Results"]
-    for results_label in drug_label: #to loop through a dictionary's top-level keys/attributes
+    #to loop through a dictionary's top-level keys/attributes
+    for results_label in drug_label:
         results_label = {
             "brand_name": results_label["1.Brand Name"],
             "generic_name": results_label["2. Generic Name"],
@@ -146,4 +146,3 @@ def run():
 
     else:
         print("Please select a valid option")
-
